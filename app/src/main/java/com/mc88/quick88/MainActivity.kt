@@ -12,7 +12,6 @@ import android.os.Vibrator
 import android.provider.ContactsContract
 import android.widget.ImageButton
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 
@@ -45,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         val cardFlashlight = findViewById<CardView>(R.id.cardFlashlight)
         val cardCamera = findViewById<CardView>(R.id.cardCamera)
         val cardContacts = findViewById<CardView>(R.id.cardContacts)
+        val cardGallery = findViewById<CardView>(R.id.cardGallery)
 
         btnTheme.setOnClickListener {
             playFeedback()
@@ -77,6 +77,11 @@ class MainActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 Toast.makeText(this, "Contacts not available", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        cardGallery.setOnClickListener {
+            playFeedback()
+            startActivity(Intent(this, GalleryActivity::class.java))
         }
     }
 
