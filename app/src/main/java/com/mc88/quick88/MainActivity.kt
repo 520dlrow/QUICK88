@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.provider.ContactsContract
+import android.provider.MediaStore
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
@@ -78,12 +79,23 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, CameraActivity::class.java))
         }
 
+        findViewById<CardView>(R.id.cardVideo).setOnClickListener {
+            playFeedback()
+            val intent = Intent(MediaStore.INTENT_ACTION_VIDEO_CAMERA)
+            try {
+                startActivity(intent)
+            } catch (e: Exception) {
+                Toast.makeText(this, "Video camera not found", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         findViewById<CardView>(R.id.cardContacts).setOnClickListener {
             playFeedback()
+            val intent = Intent(Intent.ACTION_VIEW, ContactsContract.Contacts.CONTENT_URI)
             try {
-                startActivity(Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI))
+                startActivity(intent)
             } catch (e: Exception) {
-                Toast.makeText(this, "Contacts error", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Contacts app not found", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -95,11 +107,6 @@ class MainActivity : AppCompatActivity() {
         findViewById<CardView>(R.id.cardCalculator).setOnClickListener {
             playFeedback()
             startActivity(Intent(this, CalculatorActivity::class.java))
-        }
-
-        findViewById<CardView>(R.id.cardRecorder).setOnClickListener {
-            playFeedback()
-            startActivity(Intent(this, RecorderActivity::class.java))
         }
 
         findViewById<CardView>(R.id.cardMagnifier).setOnClickListener {
