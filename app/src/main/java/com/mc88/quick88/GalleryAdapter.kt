@@ -1,6 +1,5 @@
 package com.mc88.quick88
 
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +7,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 
 class GalleryAdapter(
-    private val imageList: List<Uri>,
+    private val mediaList: List<MediaItem>,
     private val onClick: (Int) -> Unit
 ) : RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
 
@@ -22,9 +21,9 @@ class GalleryAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.ivGalleryImage.setImageURI(imageList[position])
+        holder.ivGalleryImage.setImageURI(mediaList[position].uri)
         holder.itemView.setOnClickListener { onClick(position) }
     }
 
-    override fun getItemCount() = imageList.size
+    override fun getItemCount() = mediaList.size
 }
