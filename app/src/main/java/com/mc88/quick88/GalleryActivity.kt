@@ -22,12 +22,12 @@ class GalleryActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var tvEmpty: TextView
-    private val imageUris = mutableListOf<Uri>()
+    private val mediaList = mutableListOf<MediaItem>()
     private lateinit var adapter: GalleryAdapter
 
-    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-        if (isGranted) {
-            loadImages()
+    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+        if (permissions.values.all { it }) {
+            loadMedia()
         } else {
             Toast.makeText(this, "Permission required", Toast.LENGTH_SHORT).show()
             finish()
@@ -46,52 +46,72 @@ class GalleryActivity : AppCompatActivity() {
 
         recyclerView.layoutManager = GridLayoutManager(this, 3)
         
-        adapter = GalleryAdapter(imageUris) { position ->
-            val intent = Intent(this, ImageDetailActivity::class.java)
-            val stringUris = ArrayList(imageUris.map { it.toString() })
-            intent.putStringArrayListExtra("imageUris", stringUris)
-            intent.putExtra("position", position)
-            startActivity(intent)
+        adapter = GalleryAdapter(mediaList) { position ->
+            val item = mediaList[position]
+            if (item.isVideo) {
+                val intent = Intent(this, VideoPlayerActivity::class.java)
+                intent.putExtra("videoUri", item.uri.toString())
+                startActivity(intent)
+            } else {
+                val intent = Intent(this, ImageDetailActivity::class.java)
+                val stringUris = ArrayList(mediaList.filter { !it.isVideo }.map { it.uri.toString() })
+                intent.putStringArrayListExtra("imageUris", stringUris)
+                
+                val imagePosition = mediaList.take(position).count { !it.isVideo }
+                intent.putExtra("position", imagePosition)
+                startActivity(intent)
+            }
         }
         
         recyclerView.adapter = adapter
         btnBack.setOnClickListener { finish() }
 
-        val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            Manifest.permission.READ_MEDIA_IMAGES
+        val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arrayOf(Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO)
         } else {
-            Manifest.permission.READ_EXTERNAL_STORAGE
+            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
 
-        if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) {
-            loadImages()
+        if (permissions.all { ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED }) {
+            loadMedia()
         } else {
-            requestPermissionLauncher.launch(permission)
+            requestPermissionLauncher.launch(permissions)
         }
     }
 
-    private fun loadImages() {
-        val projection = arrayOf(MediaStore.Images.Media._ID)
-        val sortOrder = "${MediaStore.Images.Media.DATE_ADDED} DESC"
-        
+    private fun loadMedia() {
+        val projection = arrayOf(
+            MediaStore.Files.FileColumns._ID,
+            MediaStore.Files.FileColumns.MEDIA_TYPE
+        )
+        val selection = "${MediaStore.Files.FileColumns.MEDIA_TYPE}=? OR ${MediaStore.Files.FileColumns.MEDIA_TYPE}=?"
+        val selectionArgs = arrayOf(
+            MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE.toString(),
+            MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO.toString()
+        )
+        val sortOrder = "${MediaStore.Files.FileColumns.DATE_ADDED} DESC"
+
         val cursor = contentResolver.query(
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            projection, null, null, sortOrder
+            MediaStore.Files.getContentUri("external"),
+            projection, selection, selectionArgs, sortOrder
         )
 
-        imageUris.clear()
+        mediaList.clear()
         cursor?.use {
-            val idColumn = it.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
+            val idColumn = it.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID)
+            val typeColumn = it.getColumnIndexOrThrow(MediaStore.Files.FileColumns.MEDIA_TYPE)
             while (it.moveToNext()) {
                 val id = it.getLong(idColumn)
-                val contentUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
-                imageUris.add(contentUri)
+                val type = it.getInt(typeColumn)
+                val contentUri = ContentUris.withAppendedId(MediaStore.Files.getContentUri("external"), id)
+                val isVideo = type == MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO
+                mediaList.add(MediaItem(contentUri, isVideo))
             }
         }
 
         adapter.notifyDataSetChanged()
 
-        if (imageUris.isEmpty()) {
+        if (mediaList.isEmpty()) {
             tvEmpty.visibility = View.VISIBLE
             recyclerView.visibility = View.GONE
         } else {
