@@ -2,18 +2,14 @@
     <string name="app_name">Quick88</string>
     <string name="flashlight">المصباح</string>
     <string name="camera">الكاميرا</string>
+    <string name="video_camera">فيديو</string>
     <string name="contacts">الاتصال</string>
     <string name="gallery">المعرض</string>
     <string name="calculator">الحاسبة</string>
-    <string name="recorder">المسجل</string>
     <string name="magnifier">المكبر</string>
-    <string name="battery">البطارية</string>
     <string name="take_photo">التقاط</string>
     <string name="switch_camera">تبديل</string>
     <string name="back">رجوع</string>
-    <string name="no_photos">لا توجد صور</string>
-    <string name="record_start">تسجيل</string>
-    <string name="record_stop">إيقاف</string>
-    <string name="play">تشغيل</string>
-    <string name="settings">الإعدادات</string>
+    <string name="no_photos">لا توجد وسائط</string>
+    <string name="video_error">لا يمكن تشغيل الفيديو</string>
 </resources>
