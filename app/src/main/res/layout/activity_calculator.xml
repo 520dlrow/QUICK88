@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="?android:attr/colorBackground">
+
+    <TextView
+        android:id="@+id/tvResult"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="end|center_vertical"
+        android:text="0"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="50sp"
+        android:textStyle="bold" />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:columnCount="4"
+        android:rowCount="5">
+
+        <Button android:id="@+id/btnC" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_width="0dp" android:layout_height="0dp" android:text="C" android:textSize="30sp" />
+        <Button android:id="@+id/btnDiv" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_width="0dp" android:layout_height="0dp" android:text="/" android:textSize="30sp" />
+        <Button android:id="@+id/btnMul" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_width="0dp" android:layout_height="0dp" android:text="x" android:textSize="30sp" />
+        <Button android:id="@+id/btnMinus" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_width="0dp" android:layout_height="0dp" android:text="-" android:textSize="30sp" />
+
+        <Button android:id="@+id/btn7" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_width="0dp" android:layout_height="0dp" android:text="7" android:textSize="30sp" />
+        <Button android:id="@+id/btn8" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_width="0dp" android:layout_height="0dp" android:text="8" android:textSize="30sp" />
+        <Button android:id="@+id/btn9" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_width="0dp" android:layout_height="0dp" android:text="9" android:textSize="30sp" />
+        <Button android:id="@+id/btnPlus" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_width="0dp" android:layout_height="0dp" android:text="+" android:textSize="30sp" />
+
+        <Button android:id="@+id/btn4" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_width="0dp" android:layout_height="0dp" android:text="4" android:textSize="30sp" />
+        <Button android:id="@+id/btn5" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_width="0dp" android:layout_height="0dp" android:text="5" android:textSize="30sp" />
+        <Button android:id="@+id/btn6" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_width="0dp" android:layout_height="0dp" android:text="6" android:textSize="30sp" />
+        <Button android:id="@+id/btnBackCalc" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_width="0dp" android:layout_height="0dp" android:text="←" android:textSize="30sp" />
+
+        <Button android:id="@+id/btn1" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_width="0dp" android:layout_height="0dp" android:text="1" android:textSize="30sp" />
+        <Button android:id="@+id/btn2" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_width="0dp" android:layout_height="0dp" android:text="2" android:textSize="30sp" />
+        <Button android:id="@+id/btn3" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_width="0dp" android:layout_height="0dp" android:text="3" android:textSize="30sp" />
+        <Button android:id="@+id/btnExitCalc" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_width="0dp" android:layout_height="0dp" android:text="EXIT" android:textSize="16sp" />
+
+        <Button android:id="@+id/btn0" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_width="0dp" android:layout_height="0dp" android:text="0" android:textSize="30sp" android:layout_columnSpan="2" />
+        <Button android:id="@+id/btnDot" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_width="0dp" android:layout_height="0dp" android:text="." android:textSize="30sp" />
+        <Button android:id="@+id/btnEqual" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_width="0dp" android:layout_height="0dp" android:text="=" android:textSize="30sp" />
+
+    </GridLayout>
+</LinearLayout>
