@@ -3,6 +3,7 @@
     <string name="flashlight">Lampe torche</string>
     <string name="camera">Appareil photo</string>
     <string name="contacts">Contacts</string>
+    <string name="gallery">Galerie</string>
     <string name="settings">Paramètres</string>
     <string name="theme">Thème</string>
     <string name="take_photo">Prendre photo</string>
@@ -10,4 +11,5 @@
     <string name="back">Retour</string>
     <string name="contact_list">Liste de contacts</string>
     <string name="add_contact">+ Ajouter contact</string>
+    <string name="no_photos">Aucune photo trouvée</string>
 </resources>
