@@ -2,6 +2,7 @@ package com.mc88.quick88
 
 import android.Manifest
 import android.content.ContentUris
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -28,17 +29,14 @@ class GalleryActivity : AppCompatActivity() {
         if (isGranted) {
             loadImages()
         } else {
-            Toast.makeText(this, "Permission required to view photos", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Permission required", Toast.LENGTH_SHORT).show()
             finish()
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val prefs = getSharedPreferences("quick88_prefs", MODE_PRIVATE)
-        when (prefs.getInt("theme_index", 0)) {
-            1 -> setTheme(R.style.Theme_Quick88_Dark)
-            else -> setTheme(R.style.Theme_Quick88)
-        }
+        if (prefs.getInt("theme_index", 0) == 1) setTheme(R.style.Theme_Quick88_Dark) else setTheme(R.style.Theme_Quick88)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gallery)
 
@@ -47,9 +45,16 @@ class GalleryActivity : AppCompatActivity() {
         val btnBack = findViewById<Button>(R.id.btnBackGallery)
 
         recyclerView.layoutManager = GridLayoutManager(this, 3)
-        adapter = GalleryAdapter(imageUris)
+        
+        adapter = GalleryAdapter(imageUris) { position ->
+            val intent = Intent(this, ImageDetailActivity::class.java)
+            val stringUris = ArrayList(imageUris.map { it.toString() })
+            intent.putStringArrayListExtra("imageUris", stringUris)
+            intent.putExtra("position", position)
+            startActivity(intent)
+        }
+        
         recyclerView.adapter = adapter
-
         btnBack.setOnClickListener { finish() }
 
         val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -71,10 +76,7 @@ class GalleryActivity : AppCompatActivity() {
         
         val cursor = contentResolver.query(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            projection,
-            null,
-            null,
-            sortOrder
+            projection, null, null, sortOrder
         )
 
         imageUris.clear()
