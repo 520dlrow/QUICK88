@@ -7,7 +7,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 
-class GalleryAdapter(private val imageList: List<Uri>) : RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
+class GalleryAdapter(
+    private val imageList: List<Uri>,
+    private val onClick: (Int) -> Unit
+) : RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val ivGalleryImage: ImageView = view.findViewById(R.id.ivGalleryImage)
@@ -20,6 +23,7 @@ class GalleryAdapter(private val imageList: List<Uri>) : RecyclerView.Adapter<Ga
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.ivGalleryImage.setImageURI(imageList[position])
+        holder.itemView.setOnClickListener { onClick(position) }
     }
 
     override fun getItemCount() = imageList.size
