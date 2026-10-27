@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="32dp"
+    android:background="?android:attr/colorBackground">
+
+    <TextView android:id="@+id/tvRecStatus" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ready" android:textSize="30sp" android:textColor="?android:attr/textColorPrimary" android:layout_marginBottom="32dp"/>
+
+    <Button android:id="@+id/btnRecord" android:layout_width="match_parent" android:layout_height="100dp" android:text="@string/record_start" android:textSize="30sp" android:layout_marginBottom="16dp"/>
+
+    <Button android:id="@+id/btnStop" android:layout_width="match_parent" android:layout_height="100dp" android:text="@string/record_stop" android:textSize="30sp" android:layout_marginBottom="16dp"/>
+
+    <Button android:id="@+id/btnPlayRec" android:layout_width="match_parent" android:layout_height="100dp" android:text="@string/play" android:textSize="30sp" android:layout_marginBottom="16dp"/>
+
+    <Button android:id="@+id/btnBackRec" android:layout_width="match_parent" android:layout_height="80dp" android:text="@string/back" android:textSize="24sp" />
+</LinearLayout>
